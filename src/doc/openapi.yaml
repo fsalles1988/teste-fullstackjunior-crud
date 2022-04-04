@@ -1,0 +1,134 @@
+openapi: 3.1.1
+info:
+  title: Documentation Test_Crud
+  description: >-
+    API for registering users and consulting the information of about
+    already registered
+  contact:
+    name: Felipe da Silva Salles
+    email: felipesalles1988@gmail.com
+  version: 1.0.0
+servers:
+  - url: 'http://localhost:8080/'
+tags:
+  - name: Users
+    description: Operations about user
+paths:
+  /api/v1/users:
+    get:
+      tags:
+        - Users
+      summary: Create list with all users
+      description: Return a list with all users registered
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/user'
+  /api/v1/users/:                
+    delete:
+      tags:
+        - Users
+      summary: Delete all users
+      description: This can delete all users registers completely.
+      responses:
+        200:
+          description: Delete all user successful
+    post:
+      tags:
+      - Users
+      summary: Create user
+      operationId: createUser
+      requestBody:
+        description: User object that needs to be added to the list
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/user'
+        required: true
+      responses:
+        201:
+          description: Created successful
+  /api/v1/users/:user_id:
+    get:
+      tags:
+        - Users
+      summary: Create list with specified user
+      description: Return a user specified
+      operationId: listAUser
+      parameters:
+        - name: user_id
+          in: path
+          description: The user_id that needs to be found
+          required: true
+          schema:
+            type: number
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/user'
+      
+    put:
+      tags:
+      - Users
+      summary: Update user
+      operationId: updateUser
+      parameters:
+        - name: user_id
+          in: path
+          description: The user_id that needs to be modified
+          required: true
+          schema:
+            type: number
+      requestBody:
+        description: This can update user information
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/user'
+        required: true
+      responses:
+        200:
+          description: Successful operation
+        400:
+          description: Fill in all fields
+        404:
+          description: User not found
+    delete:
+      tags:
+        - Users
+      summary: Delete a user
+      description: This can delete user register completely.
+      operationId: deleteUser
+      parameters:
+        - name: user_id
+          in: path
+          description: The user_id that needs to be deleted
+          required: true
+          schema:
+            type: number
+      responses:
+        204:
+          description: Delete user successful
+      
+components:
+  schemas:
+    user:
+      required:
+        - Email
+        - Password
+      type: object
+      properties:
+        Email:
+          type: string
+        Password:
+          type: string
